@@ -53,3 +53,13 @@ MAC_ADDR <strength_1> <strength_2>"
 	       (progn
 		 (format o "~a	" mac-addr)
 		 (format o "~{~a~^	~}~%" strengths))))))
+
+
+
+;;;;;; History stuff
+; WIFI-HOTSPOTS-PROTOTYPE> (output-transposed-wifi-file "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv" "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.transposed.csv")
+; NIL
+; WIFI-HOTSPOTS-PROTOTYPE> (output-transposed-wifi-file "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv" "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.transposed.csv")
+; NIL
+; WIFI-HOTSPOTS-PROTOTYPE> (output-transposed-wifi-file "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv" "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.transposed.csv")
+; NIL
