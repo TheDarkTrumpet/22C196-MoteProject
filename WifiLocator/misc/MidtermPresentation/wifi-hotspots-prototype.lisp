@@ -34,3 +34,22 @@
 		   (push (abs (read-from-string signal-str))
 			 (cdr (assoc mac-addr mac-addr-db :test #'string-equal))))))
     mac-addr-db))
+
+
+;;;;;; Outputs an alternate formatted file ;;;;;;;;
+
+(defun output-transposed-wifi-file (infile outfile)
+  "Given an infile, and outfile, we'll reformat the file from being:
+MAC_ADDR <strength>
+...
+TO.....
+MAC_ADDR <strength_1> <strength_2>"
+  (let ((loaded-wifi-file (load-wifi-formatted-file infile)))
+    (with-open-file (o outfile :direction :output :if-does-not-exist :create :if-exists :supersede)
+      (loop for element in loaded-wifi-file
+	    for mac-addr = (car element)
+	    for strengths = (cdr element)
+	    do
+	       (progn
+		 (format o "~a	" mac-addr)
+		 (format o "~{~a~^	~}~%" strengths))))))
