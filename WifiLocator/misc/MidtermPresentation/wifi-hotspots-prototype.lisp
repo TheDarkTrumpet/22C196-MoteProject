@@ -55,6 +55,23 @@ MAC_ADDR <strength_1> <strength_2>"
 		 (format o "~{~a~^	~}~%" strengths))))))
 
 
+;;;;;; Some R-Specific options ;;;;
+
+(defun load-assoc-files (filelist)
+  "Given a list of files, we'll return an ALIST such that it's:
+ (FILE_NAME . ((MAC_ADDR . '(LIST_OF_ADDRS))
+               (...)))
+"
+  (loop for f in filelist
+	for loaded-file = (load-wifi-formatted-file f)
+	while f
+	collect (cons f loaded-file)))
+
+(defun output-R-transposed-wifi-file (inFileList)
+  "Given a list of files, we'll load each one, determine all the MAC addresses within them all,
+then will output transposed files with the MAC-ADDR on top row, and all mac addresses listed below.
+This will be in CSV format"
+  )
 
 ;;;;;; History stuff
 ; WIFI-HOTSPOTS-PROTOTYPE> (output-transposed-wifi-file "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv" "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.transposed.csv")
