@@ -87,6 +87,7 @@ public class WifiActivity extends Activity {
 		if(uiUpdateTask!=null)
 		   uiUpdateTask.cancel();
 		timer.cancel();
+		wifiService.closeWifi();
 		try {
 			//this.unregisterReceiver(wifiStateReceiver);
 			fileService.closeFile();
@@ -94,7 +95,6 @@ public class WifiActivity extends Activity {
 			// TODO Auto-generated catch block;
 			e.printStackTrace();
 		}
-		wifiService.closeWifi();
 	}
     
     /**
@@ -205,16 +205,10 @@ public class WifiActivity extends Activity {
 	           case R.id.scanWifi:
 	        	   //context.registerReceiver(wifiStateReceiver, filter);
 	        	   wifiService.startScan();
-	        	   if(wifiScanTask==null)
-	        	   {
-	        		   wifiScanTask=new WifiScanTask(wifiService,eventQueue,memoryQueue);
-	        		   timer.scheduleAtFixedRate(wifiScanTask, 0, 1000);
-	        	   }
-	        	   if(uiUpdateTask==null)
-	        	   {
-	        		   uiUpdateTask=new UIUpdateTask(handler);
-	        		   timer.scheduleAtFixedRate(uiUpdateTask, 0, 1000);
-	        	   }
+        		   wifiScanTask=new WifiScanTask(wifiService,eventQueue,memoryQueue);
+        		   timer.scheduleAtFixedRate(wifiScanTask, 0, 1000);
+        		   uiUpdateTask=new UIUpdateTask(handler);
+        		   timer.scheduleAtFixedRate(uiUpdateTask, 0, 1000);
 	        	   if(!consumer.isAlive())
 	        	   consumer.start();
 	        	   displayAllWifiList();
