@@ -8,8 +8,9 @@ import java.util.List;
 import android.net.wifi.ScanResult;
 
 /**
+ * 
  * @author Eric
- *
+ * @version 0
  */
 public class Signature {
 

@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class WifiActivity extends Activity {
     private Button btn_stop_scan;
     private TextView wifilist_text;
     private ProgressBar scanning_bar;
+    private ImageView map;
     
     private WifiService wifiService;
     private FileService fileService;

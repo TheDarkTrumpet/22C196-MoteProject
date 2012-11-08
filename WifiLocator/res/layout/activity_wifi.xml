@@ -53,8 +53,18 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/scanWifi"
         android:layout_marginTop="28dp"
+        android:maxEms="20"
+        android:maxLines="18"
         android:scrollbars="vertical"
-        android:maxLines="18" 
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignTop="@+id/wifiList"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/smallmap" />
 
 </RelativeLayout>

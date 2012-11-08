@@ -94,7 +94,8 @@ public class FileService{
 	}
 	
 	/**
-	 * 
+	 * Close the File
+	 * @author Eric Wang
 	 * @throws Exception
 	 */
 	public void closeFile() throws Exception
