@@ -57,15 +57,34 @@ MAC_ADDR <strength_1> <strength_2>"
 
 ;;;;;; Some R-Specific options ;;;;
 
+(defvar *file-alist*
+  '(("hallway" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")
+    ("4511" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
+    ("4505" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")))
+
 (defun load-assoc-files (filelist)
   "Given a list of files, we'll return an ALIST such that it's:
  (FILE_NAME . ((MAC_ADDR . '(LIST_OF_ADDRS))
                (...)))
 "
   (loop for f in filelist
-	for loaded-file = (load-wifi-formatted-file f)
+	for name = (car f)
+	for path = (cdr f)
+	for loaded-file = (load-wifi-formatted-file path)
 	while f
-	collect (cons f loaded-file)))
+	collect (cons name loaded-file)))
+
+(defun get-uniq-mac-address-list (loadedassocfiles)
+  (let ((macaddrs '()))
+    (loop for f in loadedassocfiles
+	  for falist = (cdr f)
+	  do
+	     (loop for mc in falist
+		   for macaddr = (car mc)
+		   while mc
+		   do
+		      (push macaddr macaddrs)))
+    (remove-duplicates macaddrs :test #'string-equal)))
 
 (defun output-R-transposed-wifi-file (inFileList)
   "Given a list of files, we'll load each one, determine all the MAC addresses within them all,
