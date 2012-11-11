@@ -122,7 +122,7 @@ public class WifiService {
 			if(m_wholeList!=null) 
 			{	for(int i=0;i<m_wholeList.size();i++)
 				{
-					//if(m_wholeList.get(i).SSID.equals("eduroam"))
+					if(m_wholeList.get(i).SSID.equals("eduroam"))
 					m_wifiList.add(m_wholeList.get(i));
 				}
 			}

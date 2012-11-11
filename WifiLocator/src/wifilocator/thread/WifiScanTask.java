@@ -43,6 +43,7 @@ public class WifiScanTask extends TimerTask{
 			Signature s=memoryQueue.take();
 			s.setSigList_s(wifiList);
 			s.setTimeStamp(System.currentTimeMillis());
+			s.setHashMap();
 			eventQueue.put(s);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

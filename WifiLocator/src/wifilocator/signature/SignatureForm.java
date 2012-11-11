@@ -1,5 +1,7 @@
 package wifilocator.signature;
 
+
+
 /**
  * This is a class defined to store the wifi tupes 
  * of the form{TimeStamp,SSID,BSSID,LEVEL,FREQUENCY}

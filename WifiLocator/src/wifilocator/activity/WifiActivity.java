@@ -110,9 +110,9 @@ public class WifiActivity extends Activity {
     	context=this;
         wifiService=new WifiService(this);
         fileService=new FileService(this);
-        eventQueue=new ArrayBlockingQueue<Signature>(100);
-        memoryQueue=new ArrayBlockingQueue<Signature>(100);
-        for(int i=0;i<100;i++)
+        eventQueue=new ArrayBlockingQueue<Signature>(10);
+        memoryQueue=new ArrayBlockingQueue<Signature>(10);
+        for(int i=0;i<10;i++)
         {
         	Signature s=new Signature();
         	try {
