@@ -38,7 +38,7 @@ public class WifiScanTask extends TimerTask{
 		// TODO Auto-generated method stub
 		wifiService.startScan();
 		List<ScanResult> wifiList=wifiService.getWifiList();
-		//if(wifiList.size()==0) return;
+		if(wifiList.size()==0) return;
 		try {
 			Signature s=memoryQueue.take();
 			s.setSigList_s(wifiList);

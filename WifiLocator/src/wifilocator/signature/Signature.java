@@ -87,8 +87,8 @@ public class Signature {
 	public String toString()
 	{
 		StringBuilder str=new StringBuilder();
-		str.append(timeStamp).append("\r\n");
-		for(int i=0;i<sigList.size();i++)
+		str.append(timeStamp).append(",");
+		for(int i=1;i<sigList.size();i++)
 		{
 			str.append(sigList.get(i).toString());
 		}

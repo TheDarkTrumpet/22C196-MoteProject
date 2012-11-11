@@ -3,6 +3,9 @@ package wifilocator.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.content.Context;
 import android.os.Environment;
 import android.widget.Toast;
@@ -48,7 +51,8 @@ public class FileService{
 	{
 		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
 		{
-			File sdfile=new File(Environment.getExternalStorageDirectory(), fileName);
+			//File sdfile=new File(Environment.getExternalStorageDirectory(),getDateFormat()+".csv");
+			File sdfile=new File(Environment.getExternalStorageDirectory(),fileName+".csv");
 			fileoutputstream=new FileOutputStream(sdfile);
 		}
 		else
@@ -85,6 +89,17 @@ public class FileService{
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * @author David Thole
+	 * @return the date we create the csv file
+	 */
+	public String getDateFormat() {
+    	Date dateNow = new Date ();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd_HH.mm.ss");
+		StringBuilder myDate = new StringBuilder( dateFormat.format( dateNow ) );
+		return myDate.toString();
+    }
 	
 	/**
 	 * 

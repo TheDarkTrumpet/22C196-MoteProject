@@ -122,7 +122,7 @@ public class WifiService {
 			if(m_wholeList!=null) 
 			{	for(int i=0;i<m_wholeList.size();i++)
 				{
-					if(m_wholeList.get(i).SSID.equals("eduroam"))
+					//if(m_wholeList.get(i).SSID.equals("eduroam"))
 					m_wifiList.add(m_wholeList.get(i));
 				}
 			}
@@ -150,13 +150,9 @@ public class WifiService {
 	public StringBuilder getWifiListInString()
 	{
 		StringBuilder result=new StringBuilder();
-		if(m_wifiList!=null)
+        for(int i=0;i<m_wifiList.size();i++)
 		{
-			for(int i=0;i<m_wifiList.size();i++)
-			{
-				result.append(m_wifiList.get(i).toString()).append("\n");
-			}
-			return result;
+			result.append(m_wifiList.get(i).toString()).append("\n");
 		}
 		return result;
 	}
