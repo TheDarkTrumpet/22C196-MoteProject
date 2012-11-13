@@ -24,6 +24,8 @@ local.properties
 
 # Lisp Specific Stuff
 *.fasl
+\#*
+.\#*
 
 # Research related files we don't need to keep around
 *.reformatted.csv
