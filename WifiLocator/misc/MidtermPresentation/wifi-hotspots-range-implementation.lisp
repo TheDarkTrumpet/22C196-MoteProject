@@ -57,5 +57,11 @@ we'll return an ALIST such that it's:
 ;;     (loop for room-alist in loaded-afiles
 ;; 	  for room = (car room-alist)
 ;; 	  for mac-addr-
-
+;; 
 ;;   )
+
+(defvar *room-alist-data-store*
+  '(("4505" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
+    ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
+    ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
+
