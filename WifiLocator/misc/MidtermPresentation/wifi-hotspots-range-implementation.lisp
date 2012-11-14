@@ -11,7 +11,27 @@
 
 (in-package :wifi-classifier-prototype)
 
-; Basic loading of files
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;  Basic loading of files ;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun load-wifi-formatted-file (file)
+  "Loads the file passed in, returns an ALIST of WIFI mac addresses, and the abs signal strength"
+  (let ((mac-addr-db '()))
+    (with-open-file (f file :direction :input)
+      (loop for l = (read-line f nil nil)
+	    for l-split = (split "\\\t" l)
+	    for mac-addr = (first l-split)
+	    for signal-str = (second l-split)
+	    while l
+	    do
+	       (if (null (cdr (assoc mac-addr mac-addr-db :test #'string-equal)))
+		   (push (cons mac-addr (list (abs (read-from-string signal-str))))
+			 mac-addr-db)
+		   (push (abs (read-from-string signal-str))
+			 (cdr (assoc mac-addr mac-addr-db :test #'string-equal))))))
+    mac-addr-db))
+
 (defun load-assoc-files (filelist)
   "Given a list of files, in the format of:
 ROOM_NAME . FILE_NAME
