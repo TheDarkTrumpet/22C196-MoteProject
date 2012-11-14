@@ -42,8 +42,20 @@ we'll return an ALIST such that it's:
   (loop for f in filelist
 	for room_label = (car f)
 	for file = (cdr f)
-	for loaded-file = (load-wifi-formatted-file ffile)
+	for loaded-file = (load-wifi-formatted-file file)
 	while f
 	collect (cons room_label loaded-file)))
 
 
+;; (defun assoc-files-to-room-range (loaded-afiles)
+;;   "Given the output from load-assoc-files, we simply transform the file to be something like:
+;;  (ROOM_NAME . ((MAC_ADDR_1 MIN_RANGE MAX_RANGE)
+;;                (MAC_ADDR_2 MIN_RANGE ...)
+;;                ...)
+;;   ..)"
+;;   (let* ((new-room-alist '()))
+;;     (loop for room-alist in loaded-afiles
+;; 	  for room = (car room-alist)
+;; 	  for mac-addr-
+
+;;   )
