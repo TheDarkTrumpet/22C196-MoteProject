@@ -9,5 +9,7 @@
 (defpackage :wifi-classifier-prototype
   (:use :cl :cl-ppcre))
 
-(in-package :wifi-hotspots-prototype)
+(in-package :wifi-classifier-prototype)
+
+
 
