@@ -47,21 +47,34 @@ we'll return an ALIST such that it's:
 	collect (cons room_label loaded-file)))
 
 
-;; (defun assoc-files-to-room-range (loaded-afiles)
-;;   "Given the output from load-assoc-files, we simply transform the file to be something like:
-;;  (ROOM_NAME . ((MAC_ADDR_1 MIN_RANGE MAX_RANGE)
-;;                (MAC_ADDR_2 MIN_RANGE ...)
-;;                ...)
-;;   ..)"
-;;   (let* ((new-room-alist '()))
-;;     (loop for room-alist in loaded-afiles
-;; 	  for room = (car room-alist)
-;; 	  for mac-addr-
-;; 
-;;   )
+(defun rangeify-range (strengths)
+  (let ((smin (apply #'min strengths))
+	(smax (apply #'max strengths)))
+    `((min . ,smin)
+      (max . ,smax))))
+
+(defun assoc-files-to-room-range (loaded-afiles)
+  "Given the output from load-assoc-files, we simply transform the file to be something like:
+ (ROOM_NAME . ((MAC_ADDR_1 MIN_RANGE MAX_RANGE)
+               (MAC_ADDR_2 MIN_RANGE ...)
+               ...)
+  ..)"
+  (let* ((new-room-alist '()))
+    (loop for room-alist in loaded-afiles
+	  for room = (car room-alist)
+	  for mac-addr-list = (cdr room-alist)
+	  do
+	     (push (cons room
+			 (loop for m in mac-addr-list
+			       for mac-addr = (car m)
+			       for strengths = (cdr m)
+			       collect (cons mac-addr (rangeify-range strengths))))
+		   new-room-alist))
+    new-room-alist))
 
 (defvar *room-alist-data-store*
   '(("4505" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
     ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
     ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
 
+;;;;;;;;;
