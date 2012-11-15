@@ -73,17 +73,17 @@ we'll return an ALIST such that it's:
     new-room-alist))
 
 ;;;; MBA
-;(defvar *room-alist-data-store*
-;  '(("4505" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
-;    ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
-;    ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
+(defvar *room-alist-data-store*
+  '(("4505" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv)
+    ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv)
+    ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallwayreformatted.csv")))
 
 ;;;; Laptop
-(defvar *room-alist-data-store*
-    '(("4505" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
-      ("4511" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
-      ("4th-floor-hallway" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
-
+;; (defvar *room-alist-data-store*
+;;     '(("4505" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
+;;       ("4511" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
+;;       ("4th-floor-hallway" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
+;; 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Classification Options ;;;;;
@@ -97,13 +97,22 @@ we'll return an ALIST such that it's:
     (and (<= sig mr-min)
 	 (>= sig mr-max))))
 
+(defun eager-load-ranges ()
+  "Simply laods our ranges into the *room-ranges* variable, which is
+used for everything in this block"
+  (setf *room-ranges* 
+	(assoc-files-to-room-range (load-assoc-files *room-alist-data-store*))))
+  
 (defun determine-overlaps (signal-list)
   "Loop through the signal-list"
   )
 
-(defun classify-location (signal-list)
+(defun classify-location (signal-list &key (force-reload-p 'nil))
   "Given a signal-list in the format of:
  (MAC_ADDR_1 <signal_strength>
   MAC_ADDR_2 <signal_strength_2)"
-
+  (when (or (null *room-ranges*)
+	    (not (null force-reload-p)))
+    (eager-load-ranges))
+  
   )
