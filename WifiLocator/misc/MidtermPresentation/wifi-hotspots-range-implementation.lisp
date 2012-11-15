@@ -18,7 +18,7 @@
 (defun load-wifi-formatted-file (file)
   "Loads the file passed in, returns an ALIST of WIFI mac addresses, and the abs signal strength"
   (let ((mac-addr-db '()))
-    (with-open-file (f file :direction :input)
+    (with-open-file (f file :direction :input) 
       (loop for l = (read-line f nil nil)
 	    for l-split = (split "\\\t" l)
 	    for mac-addr = (first l-split)
@@ -72,10 +72,18 @@ we'll return an ALIST such that it's:
 		   new-room-alist))
     new-room-alist))
 
-(defvar *room-alist-data-store*
-  '(("4505" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
-    ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
-    ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
+;;;; MBA
+;(defvar *room-alist-data-store*
+;  '(("4505" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
+;    ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
+;    ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
+
+;;;; Laptop
+(setf *room-alist-data-store*
+    '(("4505" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
+      ("4511" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
+      ("4th-floor-hallway" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Classification Options ;;;;;
@@ -83,8 +91,14 @@ we'll return an ALIST such that it's:
 
 (defvar *room-ranges* '())
 
+(defun in-bucketp (sig mac-range)
+  (let ((mr-min (cdr (assoc 'min mac-range)))
+	(mr-max (cdr (assoc 'max mac-range))))
+    (and (<= sig mr-min)
+	 (>= sig mr-max))))
+
 (defun classify-location (signal-list)
   "Given a signal-list in the format of:
  (MAC_ADDR_1 <signal_strength>
   MAC_ADDR_2 <signal_strength_2)"
-  
+  )
