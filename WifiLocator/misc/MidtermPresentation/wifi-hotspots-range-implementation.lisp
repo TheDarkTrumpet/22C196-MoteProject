@@ -77,4 +77,14 @@ we'll return an ALIST such that it's:
     ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
     ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
 
-;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; Classification Options ;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar *room-ranges* '())
+
+(defun classify-location (signal-list)
+  "Given a signal-list in the format of:
+ (MAC_ADDR_1 <signal_strength>
+  MAC_ADDR_2 <signal_strength_2)"
+  
