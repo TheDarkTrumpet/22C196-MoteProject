@@ -97,8 +97,13 @@ we'll return an ALIST such that it's:
     (and (<= sig mr-min)
 	 (>= sig mr-max))))
 
+(defun determine-overlaps (signal-list)
+  "Loop through the signal-list"
+  )
+
 (defun classify-location (signal-list)
   "Given a signal-list in the format of:
  (MAC_ADDR_1 <signal_strength>
   MAC_ADDR_2 <signal_strength_2)"
+
   )
