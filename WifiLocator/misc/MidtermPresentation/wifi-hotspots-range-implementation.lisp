@@ -79,7 +79,7 @@ we'll return an ALIST such that it's:
 ;    ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
 
 ;;;; Laptop
-(setf *room-alist-data-store*
+(defvar *room-alist-data-store*
     '(("4505" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
       ("4511" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
       ("4th-floor-hallway" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
