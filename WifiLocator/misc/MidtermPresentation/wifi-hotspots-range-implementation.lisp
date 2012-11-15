@@ -102,10 +102,48 @@ we'll return an ALIST such that it's:
 used for everything in this block"
   (setf *room-ranges* 
 	(assoc-files-to-room-range (load-assoc-files *room-alist-data-store*))))
-  
+
+(defun count-overlaps (list-of-mac-ranges)
+  "Given one particular room's list of mac addrs and min/max, we'll
+  determine the overlaps and simply have a:
+ <MAC_ADDR> . <T/F>
+ mapped instead"
+  (mapcar #'(lambda (x)
+	      (let ((mac-addr (car x))
+		    (ranges (cdr x)))
+		(cons mac-addr (in-bucket-p signal x))))))
+
+(defun intersect-overlaps (signal-list room-ranges)
+  "Given a listing of signals in the form of:
+ MAC_ADDR . <signal_strength> as a list, and room ranges in the form of:
+ MAC_ADDR . <range>
+ we will loop through the signal-list and apply it to the room-ranges
+ and will return an ALIST of pruned elements in the form of:
+ MAC_ADDR . <signal>"
+  (let ((subset-signals '()))
+    (loop for s in signal-list
+	  for smac = (car s)
+	  for sstr = (cdr s)
+	  do
+	     (loop for sr in room-ranges
+		   for mac-addr = (car sr)
+		   for range-struct = (cdr sr)
+		   when
+		   (and (string-equal smac mac-addr)
+			(in-bucketp sstr range-struct))
+		   do
+		      (push (cons smac sstr) subset-signals)))
+    subset-signals))
+
 (defun determine-overlaps (signal-list)
   "Loop through the signal-list"
-  )
+  (loop for room in *room-ranges*
+	for room-name = (car room)
+	for room-ranges = (cdr room)
+	for overlaps = (intersect-overlaps signal-list room-ranges)
+	collect
+	(cons room-name (length overlaps)) into overlap-struct
+	finally (return (nreverse overlap-struct))))
 
 (defun classify-location (signal-list &key (force-reload-p 'nil))
   "Given a signal-list in the format of:
