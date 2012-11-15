@@ -12,6 +12,10 @@
 bin/
 gen/
 
+# generated files
+WifiLocator/bin/
+WifiLocator/gen/
+
 # Local configuration file (sdk path, etc)
 local.properties
 
@@ -20,6 +24,8 @@ local.properties
 
 # Lisp Specific Stuff
 *.fasl
+\#*
+.\#*
 
 # Research related files we don't need to keep around
 *.reformatted.csv
