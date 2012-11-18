@@ -73,17 +73,18 @@ we'll return an ALIST such that it's:
     new-room-alist))
 
 ;;;; MBA
-(defvar *room-alist-data-store*
-  '(("4505" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv)
-    ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv)
-    ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallwayreformatted.csv")))
+;; (defvar *room-alist-data-store*
+;;   '(("4505" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
+;;     ("4511" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv)
+;;     ("4th-floor-hallway" . "/Users/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallwayreformatted.csv")))
+;; 
 
 ;;;; Laptop
-;; (defvar *room-alist-data-store*
-;;     '(("4505" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
-;;       ("4511" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
-;;       ("4th-floor-hallway" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
-;; 
+(defvar *room-alist-data-store*
+    '(("4505" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4505.reformatted.csv")
+      ("4511" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_4511.reformatted.csv")
+      ("4th-floor-hallway" . "/home/dthole/programming/22C196-MoteProject/WifiLocator/misc/MidtermPresentation/data/wifiData_hallway.reformatted.csv")))
+ 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; Classification Options ;;;;;
@@ -103,15 +104,15 @@ used for everything in this block"
   (setf *room-ranges* 
 	(assoc-files-to-room-range (load-assoc-files *room-alist-data-store*))))
 
-(defun count-overlaps (list-of-mac-ranges)
-  "Given one particular room's list of mac addrs and min/max, we'll
-  determine the overlaps and simply have a:
- <MAC_ADDR> . <T/F>
- mapped instead"
-  (mapcar #'(lambda (x)
-	      (let ((mac-addr (car x))
-		    (ranges (cdr x)))
-		(cons mac-addr (in-bucket-p signal x))))))
+;; (defun count-overlaps (list-of-mac-ranges)
+;;   "Given one particular room's list of mac addrs and min/max, we'll
+;;   determine the overlaps and simply have a:
+;;  <MAC_ADDR> . <T/F>
+;;  mapped instead"
+;;   (mapcar #'(lambda (x)
+;; 	      (let ((mac-addr (car x))
+;; 		    (ranges (cdr x)))
+;; 		(cons mac-addr (in-bucketp signal x)))) list-of-mac-ranges))
 
 (defun intersect-overlaps (signal-list room-ranges)
   "Given a listing of signals in the form of:
