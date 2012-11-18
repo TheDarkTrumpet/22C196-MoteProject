@@ -95,24 +95,14 @@ we'll return an ALIST such that it's:
 (defun in-bucketp (sig mac-range)
   (let ((mr-min (cdr (assoc 'min mac-range)))
 	(mr-max (cdr (assoc 'max mac-range))))
-    (and (<= sig mr-min)
-	 (>= sig mr-max))))
+    (and (<= sig mr-max)
+	 (>= sig mr-min))))
 
 (defun eager-load-ranges ()
   "Simply laods our ranges into the *room-ranges* variable, which is
 used for everything in this block"
   (setf *room-ranges* 
 	(assoc-files-to-room-range (load-assoc-files *room-alist-data-store*))))
-
-;; (defun count-overlaps (list-of-mac-ranges)
-;;   "Given one particular room's list of mac addrs and min/max, we'll
-;;   determine the overlaps and simply have a:
-;;  <MAC_ADDR> . <T/F>
-;;  mapped instead"
-;;   (mapcar #'(lambda (x)
-;; 	      (let ((mac-addr (car x))
-;; 		    (ranges (cdr x)))
-;; 		(cons mac-addr (in-bucketp signal x)))) list-of-mac-ranges))
 
 (defun intersect-overlaps (signal-list room-ranges)
   "Given a listing of signals in the form of:
@@ -153,5 +143,5 @@ used for everything in this block"
   (when (or (null *room-ranges*)
 	    (not (null force-reload-p)))
     (eager-load-ranges))
-  
+  (determine-overlaps signal-list))
   )
