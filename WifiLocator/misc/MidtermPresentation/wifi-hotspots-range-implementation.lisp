@@ -144,4 +144,18 @@ used for everything in this block"
 	    (not (null force-reload-p)))
     (eager-load-ranges))
   (determine-overlaps signal-list))
-  )
+
+;;;p;;;;;;;;
+
+;; (defun output-java-csv-ranges (file)
+;;   "Outputs a CSV file in the format of:
+;; ROOM,MAC_ADDR,RANGE_LOW,RANGE_HIGH"
+;;   (when (or (null *room-ranges*)
+;; 	    (not (null force-reload-p)))
+;;     (eager-load-ranges))
+;;   (with-open-file (f file :direction :output :if-exists :supersede :if-does-not-exist :create)
+;;     (loop for room in *room-ranges*
+;; 	  for room-name = (car room)
+;; 	  for room-ranges = (cdr room)
+;; 	  do
+;; 	     (format f "
