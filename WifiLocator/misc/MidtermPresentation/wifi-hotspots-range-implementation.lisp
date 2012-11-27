@@ -147,15 +147,21 @@ used for everything in this block"
 
 ;;;p;;;;;;;;
 
-;; (defun output-java-csv-ranges (file)
-;;   "Outputs a CSV file in the format of:
-;; ROOM,MAC_ADDR,RANGE_LOW,RANGE_HIGH"
-;;   (when (or (null *room-ranges*)
-;; 	    (not (null force-reload-p)))
-;;     (eager-load-ranges))
-;;   (with-open-file (f file :direction :output :if-exists :supersede :if-does-not-exist :create)
-;;     (loop for room in *room-ranges*
-;; 	  for room-name = (car room)
-;; 	  for room-ranges = (cdr room)
-;; 	  do
-;; 	     (format f "
+(defun output-java-csv-ranges (file &key (force-reload-p 'nil))
+  "Outputs a CSV file in the format of:
+ROOM,MAC_ADDR,RANGE_LOW,RANGE_HIGH"
+  (when (or (null *room-ranges*)
+	    (not (null force-reload-p)))
+    (eager-load-ranges))
+  (with-open-file (f file :direction :output :if-exists :supersede :if-does-not-exist :create)
+    (loop for room in *room-ranges*
+	  for room-name = (car room)
+	  for room-ranges = (cdr room)
+	  do
+	     (loop for rr in room-ranges
+		   for mac-addr = (car rr)
+		   for ranges-struct = (cdr rr)
+		   for min = (cdr (assoc 'min ranges-struct))
+		   for max = (cdr (assoc 'max ranges-struct))
+		   do
+		      (format f "~a,~a,~a,~a~%" room-name mac-addr min max)))))
