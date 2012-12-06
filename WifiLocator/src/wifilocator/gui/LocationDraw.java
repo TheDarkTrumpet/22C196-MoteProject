@@ -25,11 +25,11 @@ public class LocationDraw {
 		canvas=new Canvas(map);
 	}
 	
-	public void draw(float x,float y)
+	public void draw(float x,float y, int color)
 	{
 		canvas.save();
 		Paint paint = new Paint();  
-        paint.setColor(Color.RED);
+        paint.setColor(color);
         canvas.drawCircle(x, y, 10, paint);
         canvas.restore();
 	}

@@ -14,6 +14,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.Color;
 //import android.graphics.Color;
 import android.graphics.PointF;
 //import android.graphics.PorterDuff;
@@ -209,7 +210,7 @@ public class WifiActivity extends Activity {
     	float y=((PointF)msg.obj).y;
 //    	penDraw.draw(x_value,y_value);
 //    	penDraw.getCanvas().drawColor(Color.WHITE,PorterDuff.Mode.CLEAR);
-    	penDraw.draw(x, y);
+    	penDraw.draw(x, y, Color.RED);
     	map_image.setImageBitmap(mapLoader.getBitmap());
 //    	x_value=x_value+20.5f;
 //    	y_value=y_value+20.5f;
