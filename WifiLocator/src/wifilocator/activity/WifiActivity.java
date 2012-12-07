@@ -14,6 +14,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 //import android.graphics.Color;
 import android.graphics.PointF;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 import android.net.wifi.WifiManager;
 import wifilocator.gui.LocationDraw;
 import wifilocator.gui.MapLoader;
+import wifilocator.gui.MapTouchListener;
 
 import wifilocator.service.*;
 import wifilocator.signature.*;
@@ -43,8 +46,11 @@ public class WifiActivity extends Activity {
     private Button btn_stop_scan;
     private TextView wifilist_text;
     private ProgressBar scanning_bar;
+    //the bottom layer to display the map.
     private ImageView map_image;
-    
+    //the above layer to display the user point
+    private ImageView user_image;
+    private Bitmap transparentPic;
     
     private WifiService wifiService;
     private FileService fileService;
@@ -132,9 +138,14 @@ public class WifiActivity extends Activity {
         timer=new Timer();
         powerManager=(PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock=powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Wifi");
-        mapLoader=new MapLoader(context,map_image);
-        mapLoader.loadMap(R.drawable.jessup);
-        penDraw=new LocationDraw(mapLoader.getBitmap());
+        mapLoader=new MapLoader(context,map_image,user_image);
+        mapLoader.loadMap(R.drawable.bigjessup);
+        transparentPic=Bitmap.createBitmap(1000, 2045, Config.ARGB_8888);
+        user_image.setImageBitmap(transparentPic);
+        // Set up the user layer touch listener
+        MapTouchListener upperLayerListener=new MapTouchListener(user_image,map_image,1);
+        user_image.setOnTouchListener(upperLayerListener);
+        penDraw=new LocationDraw(transparentPic);
 
     }
     
@@ -167,7 +178,10 @@ public class WifiActivity extends Activity {
     	wifilist_text=(TextView)findViewById(R.id.wifiList);
     	wifilist_text.setMovementMethod(ScrollingMovementMethod.getInstance());
     	scanning_bar=(ProgressBar)findViewById(R.id.scanning);
+    	scanning_bar.setVisibility(scanning_bar.INVISIBLE);
     	map_image=(ImageView)findViewById(R.id.mapView);
+    	user_image=(ImageView)findViewById(R.id.userView);
+    	
     }
     
     /**
@@ -203,17 +217,10 @@ public class WifiActivity extends Activity {
      */
 	private void userLocationUpdate(Message msg)
     {
-    	mapLoader.setBitmap(R.drawable.jessup);
-    	penDraw.changeMap((mapLoader.getBitmap()));
-    	//Toast.makeText(context, mapLoader.getBitmap().getHeight()+"",Toast.LENGTH_SHORT).show();
     	float x=((PointF)msg.obj).x;
     	float y=((PointF)msg.obj).y;
-//    	penDraw.draw(x_value,y_value);
-//    	penDraw.getCanvas().drawColor(Color.WHITE,PorterDuff.Mode.CLEAR);
     	penDraw.draw(x, y, Color.RED);
-    	map_image.setImageBitmap(mapLoader.getBitmap());
-//    	x_value=x_value+20.5f;
-//    	y_value=y_value+20.5f;
+    	user_image.invalidate();
     }
     
     /**
@@ -229,15 +236,17 @@ public class WifiActivity extends Activity {
 	        switch (v.getId()) {  
 	           case R.id.scanWifi:
 	        	   locatEstiTask =new LocationEstimateTask(wifiService,fileService,eventQueue,memoryQueue);
-        		   timer.scheduleAtFixedRate(locatEstiTask, 0, 1000);
+        		   timer.scheduleAtFixedRate(locatEstiTask, 0, 500);
 	        	   if(!consumer.isAlive())
 	        	   consumer.start();
 	        	   btn_scan.setEnabled(false);
+	        	   scanning_bar.setVisibility(scanning_bar.VISIBLE);
 	               break;
 	           case R.id.stopScan:
 	        	   if(locatEstiTask!=null)
 	        		   locatEstiTask.cancel();
 	        	   btn_scan.setEnabled(true);
+	        	   scanning_bar.setVisibility(scanning_bar.INVISIBLE);
 	        	   break;
 	           case R.id.openWifi: 
 	        	   wifiService.openWifi();

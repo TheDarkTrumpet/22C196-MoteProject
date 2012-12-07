@@ -2,9 +2,12 @@ package wifilocator.service;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +17,7 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.os.Environment;
 import android.widget.Toast;
+import wifilocator.activity.R;
 import wifilocator.signature.*;
 
 /**
@@ -24,8 +28,8 @@ import wifilocator.signature.*;
 public class FileService{
 	private Context context;
 	private FileOutputStream fos;
-	private FileReader fr;
 	private BufferedReader br;
+	private InputStreamReader ir;
 	
 	/**
 	 * Constructor function of FileService
@@ -117,9 +121,10 @@ public class FileService{
 	public List<Signature> readFile(String fileName) throws Exception
 	{
 		List<Signature> refSigList=new ArrayList<Signature>();
-		File refDatabase=new File(Environment.getExternalStorageDirectory(),fileName);
-		fr=new FileReader(refDatabase);
-		br=new BufferedReader(fr);
+		//put the database File into the raw folder.
+		InputStream inputStream=context.getResources().openRawResource(R.raw.wifidata);
+		ir=new InputStreamReader(inputStream);
+		br=new BufferedReader(ir);
 		String line;
 		String []sArray;
 		while((line=br.readLine())!=null)
@@ -128,9 +133,9 @@ public class FileService{
 			Signature s=new Signature();
 			List<SignatureForm> sf=new ArrayList<SignatureForm>();
 			PointF coordinate=new PointF();
-			coordinate.set(Float.parseFloat(sArray[0]),Float.parseFloat(sArray[1]));
+			coordinate.set(Float.parseFloat(sArray[1]),Float.parseFloat(sArray[2]));
 			s.setCoordinate(coordinate);
-			for(int i=2;i<sArray.length;i=i+2)
+			for(int i=3;i<sArray.length;i=i+2)
 		    {
 				sf.add(new SignatureForm("edurom",sArray[i],Integer.parseInt(sArray[i+1]),0));
 		    }
@@ -139,7 +144,8 @@ public class FileService{
 			refSigList.add(s);
 		}
 		br.close();
-		fr.close();
+		ir.close();
+		//Toast.makeText(context, refSigList.size()+"", Toast.LENGTH_SHORT).show();
 		return refSigList;
 	}
 	

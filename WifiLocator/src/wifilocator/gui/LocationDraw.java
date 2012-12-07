@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 /**
  * UI class to draw the user location onto map
  * @author Eric Wang
@@ -27,11 +28,12 @@ public class LocationDraw {
 	
 	public void draw(float x,float y, int color)
 	{
-		canvas.save();
+		//clear the user layer
+		canvas.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR);
 		Paint paint = new Paint();  
         paint.setColor(color);
         canvas.drawCircle(x, y, 10, paint);
-        canvas.restore();
+        
 	}
 	
 	public void changeMap(Bitmap map)

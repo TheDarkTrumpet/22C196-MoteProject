@@ -17,6 +17,7 @@ public class MapLoader {
 
 	private Context context;
 	private ImageView mapView;
+	private ImageView userView;
 	private Bitmap map;
 	private MapTouchListener mapTouchListener;
 	
@@ -26,10 +27,11 @@ public class MapLoader {
 	 * @param context 
 	 * @param mapView
 	 */
-	public MapLoader(Context context,ImageView mapView)
+	public MapLoader(Context context,ImageView mapView,ImageView userView)
 	{
 		this.setContext(context);
 		this.setMapView(mapView);
+		this.setUserView(userView);
 	}
 	
 	/**
@@ -40,9 +42,10 @@ public class MapLoader {
 	{
 		//map=BitmapFactory.decodeResource(context.getResources(),id).copy(Bitmap.Config.ARGB_8888, true);
 		Bitmap tempmap=BitmapFactory.decodeResource(context.getResources(),id).copy(Bitmap.Config.ARGB_8888, true);
-		map=tempmap.createScaledBitmap(tempmap, 1149, 656, false);
+		map=tempmap.createScaledBitmap(tempmap, 1000, 2045, false);
 		mapView.setImageBitmap(map);
-		mapTouchListener=new MapTouchListener(mapView,map);
+		// This map touch Listener is for the bottom layer
+		mapTouchListener=new MapTouchListener(userView,mapView,0);
 		mapView.setOnTouchListener(mapTouchListener);
 	}
 
@@ -88,7 +91,15 @@ public class MapLoader {
 	{
 		//map=BitmapFactory.decodeResource(context.getResources(),id).copy(Bitmap.Config.ARGB_8888, true);
 		Bitmap tempmap=BitmapFactory.decodeResource(context.getResources(),id).copy(Bitmap.Config.ARGB_8888, true);
-		map=tempmap.createScaledBitmap(tempmap, 1149, 656, false);
+		map=tempmap.createScaledBitmap(tempmap, 1000, 2045, false);
+	}
+
+	public ImageView getUserView() {
+		return userView;
+	}
+
+	public void setUserView(ImageView userView) {
+		this.userView = userView;
 	}
 	
 }
