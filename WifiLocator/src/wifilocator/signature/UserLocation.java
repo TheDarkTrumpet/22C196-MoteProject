@@ -34,8 +34,8 @@ public class UserLocation {
 		this.setRefSigList(refSigList);
 		this.setUserSignature(userSig);
 		pLocation=new PointF();
-		//missing wifi hotspots is replaced with -100
-		distanceMetric=new DistanceMetric(-100);
+		//missing wifi hotspots is replaced with -110
+		distanceMetric=new DistanceMetric(-110);
 	}
 	
 	public UserLocation()
@@ -43,7 +43,7 @@ public class UserLocation {
 		refSigList=new ArrayList<Signature>();
 		userSig=new Signature();
 		pLocation=new PointF();
-		distanceMetric=new DistanceMetric(-120);
+		distanceMetric=new DistanceMetric(-110);
 	}
 	/**
 	 * Calculate the location of user
@@ -52,7 +52,7 @@ public class UserLocation {
 	 */
 	public PointF getLocation()
 	{
-		int k=3;
+		int k=2;
 		List<Signature> k_refSigList=K_nearest(k);
 		WeightedCentroid(k_refSigList);
 		return pLocation;

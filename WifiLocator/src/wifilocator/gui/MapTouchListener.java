@@ -31,24 +31,37 @@ public class MapTouchListener implements OnTouchListener{
 	private PointF prevP;
 	private PointF midP;
 	private float dist;
-	private ImageView map_image;
+	private ImageView upperLayer;
+	private ImageView bottomLayer;
+	private int level;
 	//test for GUI
 	
 	/**
 	 * Constructor function
 	 * @author Eric Wang
 	 * @param map_image
-	 * @param map
+	 * @param user_image
+	 * @param indicator, to indicate this TouchListener belongs to the upper layer
+	 * or the bottom layer
 	 */
-	public MapTouchListener(ImageView map_image,Bitmap bitmap)
+	public MapTouchListener(ImageView upperLayer,ImageView bottomLayer,int level)
 	{
 		currentMatrix=new Matrix();
 		savedMatrix=new Matrix();
 		prevP=new PointF();
 		midP=new PointF();
 		mode=NONE;
-		this.map_image=map_image;
-		map_image.setImageMatrix(currentMatrix);
+		this.upperLayer=upperLayer;
+		this.bottomLayer=bottomLayer;
+		this.level=level;
+		if(this.level==0)
+		{
+			bottomLayer.setImageMatrix(currentMatrix);
+		}
+		else
+		{
+			upperLayer.setImageMatrix(currentMatrix);
+		}
 		//test for GUI
 		//map_image.draw(canvas);
 	}
@@ -98,7 +111,16 @@ public class MapTouchListener implements OnTouchListener{
 			}
 			break;
 		}
-		map_image.setImageMatrix(currentMatrix);
+		if(level==0)
+		{
+			bottomLayer.setImageMatrix(currentMatrix);
+		}
+		else 
+		{
+			upperLayer.setImageMatrix(currentMatrix);
+			//pass the Touch Event from the upperLayer to bottom Layer
+			bottomLayer.dispatchTouchEvent(event);
+		}
 		return true;
 	}
 	
